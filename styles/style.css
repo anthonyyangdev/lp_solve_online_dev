@@ -1,0 +1,31 @@
+#textspace {
+  width: 100vw;
+  min-height: 50vh;
+  font-family: monospace;
+  font-size: 120%;
+}
+
+#log {
+  width: 100vw;
+  height: 50vh;
+  font-family: monospace;
+  font-size: 120%;
+}
+
+.display-button {
+  width: 8vw;
+  height: 5vh;
+  border-color: none;
+  font-size: 100%;
+  word-wrap: break-word;
+}
+
+.result-tab {
+  width: 8vw;
+  height: 5vh;
+  border-color: none;
+}
+
+#result-dash {
+  display: none;
+}
