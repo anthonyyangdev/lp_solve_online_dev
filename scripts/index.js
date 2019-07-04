@@ -39,7 +39,6 @@ $(document).ready(() => {
     var request_data = {
       code: $('#source').val()
     }
-    console.log(request_data)
 
     var url = "http://localhost:5000"
     updateLog('Now Running...')
@@ -58,7 +57,6 @@ $(document).ready(() => {
     }).then(response => {
       return response.json()
     }).then(res => {
-      console.log(res)
       if (res.error === '') {
         updateLog('Running Complete.\n')
       } else {
