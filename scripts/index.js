@@ -40,7 +40,7 @@ $(document).ready(() => {
       code: $('#source').val()
     }
 
-    var url = "http://49.165.199.56:3000"
+    var url = "http://localhost:3000"
     updateLog('Now Running...')
 
     fetch(url, {
