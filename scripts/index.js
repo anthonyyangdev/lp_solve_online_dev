@@ -39,8 +39,9 @@ $(document).ready(() => {
     var request_data = {
       code: $('#source').val()
     }
+    console.log(request_data)
 
-    var url = "http://localhost:3000"
+    var url = "http://localhost:5000"
     updateLog('Now Running...')
 
     fetch(url, {
@@ -54,9 +55,10 @@ $(document).ready(() => {
       redirect: 'follow', // manual, *follow, error
       referrer: 'no-referrer', // no-referrer, *client
       body: JSON.stringify(request_data), // body data type must match "Content-Type" header
-    }).then(response =>
-      response.json()
-    ).then(res => {
+    }).then(response => {
+      return response.json()
+    }).then(res => {
+      console.log(res)
       if (res.error === '') {
         updateLog('Running Complete.\n')
       } else {
@@ -68,6 +70,7 @@ $(document).ready(() => {
         $('#textspace').val(res.result)
       }
     }).catch(function (e) {
+      console.log(e)
       console.log('Error')
     })
   })
