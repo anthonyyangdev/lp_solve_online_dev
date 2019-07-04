@@ -40,7 +40,7 @@ $(document).ready(() => {
       code: $('#source').val()
     }
 
-    var url = "http://localhost:5000"
+    var url = "https://peaceful-zion-91234.herokuapp.com/"
     updateLog('Now Running...')
 
     fetch(url, {
