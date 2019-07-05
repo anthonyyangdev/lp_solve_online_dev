@@ -12,7 +12,13 @@
 
 <body>
   <h1>lp_solve 5.5.2.5 Online</h1>
-  <button id='run' class='display-button'>Run</button><br />
+  <?php 
+      $arr = ['run' => 'Run', 'download' => 'Download', 'upload' => 'Upload'];
+      foreach ($arr as $id => $display) {
+        echo "<button id=$id class='display-button'>$display</button>"; 
+      };
+    ?>
+  <br />
   <div>
     <?php 
       $arr = ['source' => 'Source', 'matrix' => 'Matrix', 'options' => 'Options', 'result' => 'Result'];

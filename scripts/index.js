@@ -9,6 +9,8 @@ $(document).ready(() => {
     CONSTRAINTS: 'constraints',
     SENSITIVITY: 'sensitivity'
   }
+  var url = "http://localhost:5000"
+  //    var url = "https://peaceful-zion-91234.herokuapp.com/"
 
   let state = {
     current: SYS.SOURCE
@@ -18,29 +20,58 @@ $(document).ready(() => {
     $('#log').val(`${$('#log').val()}${content}\n`)
   }
 
-  // var editor = CodeMirror.fromTextArea(document.getElementById('textspace'), {
-  //   lineNumbers: true,
-  //   mode: "htmlmixed"
-  // });
+  $('#upload').click(() => {
+    var input = document.createElement('input');
+    input.type = 'file';
+    document.body.appendChild(input)
+    input.onchange = e => {
+      var file = e.target.files[0]
+      var filename = file.name
+      var reader = new FileReader()
+      reader.readAsText(file, 'UTF-8')
+      reader.onload = readerEvent => {
+        var content = readerEvent.target.result
+        $('#source').val(content)
+        if (state.current === SYS.SOURCE) {
+          $('#textspace').val(content)
+        }
+        updateLog(`Content from ${filename} is placed into source text space.\n`)
+        document.body.removeChild(input)
+      }
+    }
+    input.click();
+  })
 
-  // function updateTextArea() {
-  //   myEditor.save();
-  // }
+  $('#download').click(() => {
+    console.log('Downloading content')
+    var content = $('#textspace').val()
+    if (state.current === SYS.SOURCE) {
+      $('#source').val(content)
+    }
+    var filename = 'lp_solve.txt'
 
-  // myEditor.on('change', updateTextArea);
+    var a = document.createElement('a')
+    var file = new Blob([content], { type: 'text/plain' })
+    a.href = URL.createObjectURL(file)
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    setTimeout(function () {
+      updateLog(`Content downloaded as ${filename}.\n`)
+      document.body.removeChild(a)
+    }, 0)
+  })
 
   $('#run').click(() => {
-
     // If currently on source, first save all current progress.
     if (state.current === SYS.SOURCE) {
       $('#source').val($('#textspace').val())
     }
 
     var request_data = {
-      code: $('#source').val()
+      content: $('#source').val()
     }
 
-    var url = "https://peaceful-zion-91234.herokuapp.com/"
     updateLog('Now Running...')
 
     fetch(url, {
