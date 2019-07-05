@@ -31,8 +31,9 @@
     <?php 
       $arr = ['objective' => 'Objective', 'constraints' => 'Constraints', 'sensitivity' => 'Sensitivity'];
       foreach ($arr as $id => $display) {
-        echo "<button id=$id class='result-tab'>$display</button>"; 
+        echo "<button id=$id class='result-tab display-button'>$display</button>"; 
       };
+      echo "<button id='download-report' class='display-button'>Download Report</button>"
     ?>
   </div>
   <textarea id='textspace'></textarea>

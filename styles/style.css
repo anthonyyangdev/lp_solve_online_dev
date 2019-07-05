@@ -13,19 +13,21 @@
 }
 
 .display-button {
-  width: 10vw;
-  height: 5vh;
+  width: 12vw;
+  height: 7vh;
   border-color: none;
-  font-size: 100%;
+  font-size: 80%;
   word-wrap: break-word;
-}
-
-.result-tab {
-  width: 8vw;
-  height: 5vh;
-  border-color: none;
 }
 
 #result-dash {
   display: none;
+}
+
+#result-dash button {
+  width: 12vw;
+  height: 5vh;
+  border-color: none;
+  font-size: 80%;
+  background-color: darkgray;
 }
