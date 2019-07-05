@@ -8,7 +8,6 @@
 .display-button {
   width: 12vw;
   height: 7vh;
-  border-color: none;
   font-size: 80%;
   word-wrap: break-word;
 }
@@ -20,7 +19,6 @@
 #result-dash button {
   width: 12vw;
   height: 5vh;
-  border-color: none;
   font-size: 80%;
   background-color: darkgray;
 }
