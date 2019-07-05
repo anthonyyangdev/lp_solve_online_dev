@@ -1,13 +1,6 @@
-#textspace {
+.text-display {
   width: 100vw;
   min-height: 50vh;
-  font-family: monospace;
-  font-size: 120%;
-}
-
-#log {
-  width: 100vw;
-  height: 50vh;
   font-family: monospace;
   font-size: 120%;
 }

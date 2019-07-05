@@ -91,12 +91,7 @@ $(document).ready(() => {
   }
 
   $(SYS.DOWNLOAD_REPORT).click(() => {
-    var report = {
-      'objective.txt': valueOf(SYS.OBJECTIVE),
-      'sensitivity.txt': valueOf(SYS.SENSITIVITY),
-      'constraints.txt': valueOf(SYS.CONSTRAINTS)
-    }
-    downloadForUser(report)
+    downloadForUser({ 'report.txt': valueOf(SYS.DOWNLOAD_REPORT) })
   })
 
   $(SYS.DOWNLOAD).click(() => {
@@ -150,6 +145,7 @@ $(document).ready(() => {
         var tab = mapping[section]
         $(tab).val(sections[section])
       }
+      $(SYS.DOWNLOAD_REPORT).val(res.result)
       displayTextIn(state.current)
     }).catch(function (e) {
       console.log(e)

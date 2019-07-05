@@ -21,7 +21,8 @@
   <br />
   <div>
     <?php 
-      $arr = ['source' => 'Source', 'matrix' => 'Matrix', 'options' => 'Options', 'result' => 'Result'];
+      // 'matrix' => 'Matrix', 'options' => 'Options', 
+      $arr = ['source' => 'Source', 'result' => 'Result'];
       foreach ($arr as $id => $display) {
         echo "<button id=$id class='tab-button display-button'>$display</button>"; 
       };
@@ -36,9 +37,9 @@
       echo "<button id='download-report' class='display-button'>Download Report</button>"
     ?>
   </div>
-  <textarea id='textspace'></textarea>
+  <textarea id='textspace' class='text-display'></textarea>
   <b>Log</b>
-  <textarea id='log' readonly></textarea>
+  <textarea id='log' class='text-display' readonly></textarea>
 </body>
 
 </html>
