@@ -210,25 +210,31 @@ $(document).ready(() => {
     }).then(response => {
       return response.json()
     }).then(res => {
-      if (res.error === '') {
-        updateLog('Running Complete.\n')
-      } else {
-        updateLog(res.lp_solve_error)
-        return
-      }
-
-      var sections = res.report
-      var mapping = {
-        'Actual values of the constraints': SYS.CONSTRAINTS,
-        'Model name': SYS.OBJECTIVE,
-        'Objective function limits': SYS.SENSITIVITY,
-      }
-      for (var section in sections) {
-        var tab = mapping[section]
-        $(tab).val(sections[section])
-      }
-      $(SYS.DOWNLOAD_REPORT).val(res.result)
+      const SOLUTION = res.result.solution
+      updateLog('Running Complete.\n')
+      $(SYS.DOWNLOAD_REPORT).val(res.result.solution)
+      $(SYS.OBJECTIVE).val(SOLUTION)
       displayTextIn(state.current)
+      console.log(res)
+      // if (res.error === '') {
+      //   updateLog('Running Complete.\n')
+      // } else {
+      //   updateLog(res.lp_solve_error)
+      //   return
+      // }
+
+      // var sections = res.report
+      // var mapping = {
+      //   'Actual values of the constraints': SYS.CONSTRAINTS,
+      //   'Model name': SYS.OBJECTIVE,
+      //   'Objective function limits': SYS.SENSITIVITY,
+      // }
+      // for (var section in sections) {
+      //   var tab = mapping[section]
+      //   $(tab).val(sections[section])
+      // }
+      // $(SYS.DOWNLOAD_REPORT).val(res.result)
+      // displayTextIn(state.current)
     }).catch(function (_) {
       updateLog('Unable to connect to the server...')
     })
@@ -248,6 +254,7 @@ $(document).ready(() => {
     } else {
       $(SYS.RESULT_DASH).hide()
     }
+
     displayTextIn(state.current)
 
     $(SYS.TEXTSPACE).attr('readonly', !currentStateIs(SYS.SOURCE))

@@ -22,3 +22,15 @@
   font-size: 80%;
   background-color: darkgray;
 }
+
+#lp-matrix {
+  width: 100%;
+  border: 1px black solid;
+}
+
+#lp-matrix tr td input{
+  width: 95%;
+  height: 100%;
+  text-align: center;
+  font-family: monospace;
+}
