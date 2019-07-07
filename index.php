@@ -41,7 +41,7 @@
       echo "<button id='download-report' class='display-button'>Download Report</button>"
     ?>
   </div>
-  <div id='matrix-input'>
+  <div hidden id='matrix-config'>
     <div>
       <?php 
         $VAR = 1;
@@ -58,20 +58,27 @@
       <tbody id="matrix-body">';
       echo '<tr><td>Variable Name(s)</td>';
       for ($i = 0; $i < $VAR; $i++) {
-        echo '<td><input type="text"/></td>';
+        echo '<td><input type="text" class="matrix-input"/></td>';
       }  
       echo '</tr>';
       echo '<tr><td>Optimize</td>';
       for ($i = 0; $i < $VAR; $i++) {
-        echo '<td><input type="text"/></td>';
+        echo '<td><input type="text" class="matrix-input"/></td>';
       }
+      echo '<td><select id="optimal-goal">
+      <option> max </option>
+      <option> min </option>
+      <option> toValue </option>
+      </select>
+      <span id="target-goal-value" hidden><input type="text" /></span>
+      </td>';
       echo '</tr>';
       
       for ($i = 0; $i < $RESTRICT; $i++) {
         echo '<tr class="constraint-equations">';
         echo '<td>Constraint</td>';
         for ($j = 0; $j < $VAR; $j++) {
-          echo '<td><input type="number"/></td>';
+          echo '<td><input type="number" class="matrix-input"/></td>';
         }        
         echo '<td><select>
           <option> ≤ </option>
@@ -80,7 +87,7 @@
           <option> > </option>
           <option> < </option>
         </select></td>';
-        echo '<td><input type="number"/></td>';
+        echo '<td><input type="number" class="matrix-input"/></td>';
         echo '</tr>';
       }
       echo '</tbody>

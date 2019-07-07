@@ -13,7 +13,7 @@ $(document).ready(() => {
     TEXTSPACE: '#textspace',
     SOURCE: '#source',
     MATRIX: '#matrix',
-    MATRIX_INPUT: '#matrix-input',
+    MATRIX_CONFIG: '#matrix-config',
     LP_MATRIX: '#lp-matrix',
     OPTIONS: '#options',
     RESULT: '#result',
@@ -29,11 +29,15 @@ $(document).ready(() => {
     VAR_COUNT: '#variable-count',
     CONSTRAINT_COUNT: '#constraint-count',
     MATRIX_BODY: '#matrix-body',
+    RESET: '#reset-button',
+    OPTIMAL_GOAL: '#optimal-goal',
+    TARGET_GOAL_VALUE: '#target-goal-value',
     class: {
       RESULT_TABS: '.result-tab',
       TAB_BUTTONS: '.tab-button',
       CONSTRAINT_EQ: '.constraint-equations',
-      COUNTER_MOD: '.counter-mod'
+      COUNTER_MOD: '.counter-mod',
+      MATRIX_INPUT: '.matrix-input'
     }
   }
   const EQUALITY_OPTIONS = '<td><select><option> ≤ </option><option> ≥ </option><option> = </option><option> > </option><option> < </option></select></td><td><input type="number"/></td>'
@@ -47,7 +51,6 @@ $(document).ready(() => {
     'constraint-count': $(SYS.CONSTRAINT_COUNT).val(),
     'variable-count': $(SYS.VAR_COUNT).val()
   }
-  $(SYS.MATRIX_INPUT).hide()
 
   /**
    * Updates the log with a new message. This message is to displayed following
@@ -233,6 +236,19 @@ $(document).ready(() => {
       performOperation()
   })
 
+  $(SYS.RESET).click(function () {
+    $(SYS.class.MATRIX_INPUT).val('')
+  })
+
+  $(SYS.OPTIMAL_GOAL).change(() => {
+    if ($(SYS.OPTIMAL_GOAL).val() === 'toValue') {
+      $(SYS.TARGET_GOAL_VALUE).show()
+    } else {
+      $(SYS.TARGET_GOAL_VALUE).hide()
+    }
+
+  })
+
   /**
    * Connects to the lp_solve_server, which performs the linear programming
    * calculations, and receives the results from those calculations.
@@ -307,7 +323,7 @@ $(document).ready(() => {
   })
 
   function setMatrixState(status) {
-    var _ = status ? $(SYS.MATRIX_INPUT).show() : $(SYS.MATRIX_INPUT).hide()
+    var _ = status ? $(SYS.MATRIX_CONFIG).show() : $(SYS.MATRIX_CONFIG).hide()
     var _ = status ? $(SYS.TEXTSPACE).hide() : $(SYS.TEXTSPACE).show()
   }
 
