@@ -32,9 +32,9 @@
   <div id='result-dash'>
     <?php 
       $arr = [
-        'objective' => 'Objective', 
-        'constraints' => 'Constraints', 
-        'sensitivity' => 'Sensitivity'];
+        'objective-button' => 'Objective', 
+        'constraints-button' => 'Constraints', 
+        'sensitivity-button' => 'Sensitivity'];
       foreach ($arr as $id => $display) {
         echo "<button id=$id class='result-tab display-button'>$display</button>"; 
       };
@@ -50,18 +50,19 @@
         value=$VAR id='variable-count' class='counter-mod'>";
         echo "<span>Constraints</span><input type='number' min=0 
         value=$RESTRICT id='constraint-count' class='counter-mod'>";
-        echo "<button id='reset-button'>Reset</button>";
+        echo '<button id="reset-button">Reset</button>';
+        echo '<button id="parse-matrix">Parse Matrix</button>'
       ?>
     </div>
     <?php 
       echo '<table id="lp-matrix" border="1">
       <tbody id="matrix-body">';
-      echo '<tr><td>Variable Name(s)</td>';
+      echo '<tr id="variable-names"><td>Variable Name(s)</td>';
       for ($i = 0; $i < $VAR; $i++) {
         echo '<td><input type="text" class="matrix-input"/></td>';
       }  
       echo '</tr>';
-      echo '<tr><td>Optimize</td>';
+      echo '<tr id="objective-function"><td>Optimize</td>';
       for ($i = 0; $i < $VAR; $i++) {
         echo '<td><input type="text" class="matrix-input"/></td>';
       }

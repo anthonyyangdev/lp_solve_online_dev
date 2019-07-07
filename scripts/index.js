@@ -10,28 +10,37 @@ $(document).ready(() => {
    * HTML/CSS class names are stored in the {@var SYS.class} property.
    */
   const SYS = {
-    TEXTSPACE: '#textspace',
-    SOURCE: '#source',
-    MATRIX: '#matrix',
-    MATRIX_CONFIG: '#matrix-config',
-    LP_MATRIX: '#lp-matrix',
-    OPTIONS: '#options',
-    RESULT: '#result',
-    RESULT_DASH: '#result-dash',
-    OBJECTIVE: '#objective',
-    CONSTRAINTS: '#constraints',
-    SENSITIVITY: '#sensitivity',
-    DOWNLOAD_REPORT: '#download-report',
-    DOWNLOAD: '#download',
-    LOG: '#log',
-    UPLOAD: '#upload',
-    RUN: '#run',
-    VAR_COUNT: '#variable-count',
-    CONSTRAINT_COUNT: '#constraint-count',
-    MATRIX_BODY: '#matrix-body',
-    RESET: '#reset-button',
-    OPTIMAL_GOAL: '#optimal-goal',
-    TARGET_GOAL_VALUE: '#target-goal-value',
+    main: {
+      SOURCE: '#source',
+      MATRIX: '#matrix',
+      OPTIONS: '#options',
+      RESULT: '#result',
+      DOWNLOAD: '#download',
+      UPLOAD: '#upload',
+      RUN: '#run',
+      TEXTSPACE: '#textspace',
+      LOG: '#log',
+    },
+    matrix: {
+      MATRIX_CONFIG: '#matrix-config',
+      LP_MATRIX: '#lp-matrix',
+      VAR_COUNT: '#variable-count',
+      CONSTRAINT_COUNT: '#constraint-count',
+      MATRIX_BODY: '#matrix-body',
+      RESET: '#reset-button',
+      OPTIMAL_GOAL: '#optimal-goal',
+      TARGET_GOAL_VALUE: '#target-goal-value',
+      PARSE_MATRIX: '#parse-matrix',
+      VARIABLE_NAMES: '#variable-names',
+      OBJECTIVE_FUNCTION: '#objective-function',
+    },
+    result: {
+      RESULT_DASH: '#result-dash',
+      DOWNLOAD_REPORT: '#download-report',
+      OBJECTIVE: '#objective-button',
+      CONSTRAINTS: '#constraints-button',
+      SENSITIVITY: '#sensitivity-button',
+    },
     class: {
       RESULT_TABS: '.result-tab',
       TAB_BUTTONS: '.tab-button',
@@ -47,9 +56,9 @@ $(document).ready(() => {
    * Records the current state of the website
    */
   let state = {
-    current: SYS.SOURCE,
-    'constraint-count': $(SYS.CONSTRAINT_COUNT).val(),
-    'variable-count': $(SYS.VAR_COUNT).val()
+    current: SYS.main.SOURCE,
+    'constraint-count': $(SYS.matrix.CONSTRAINT_COUNT).val(),
+    'variable-count': $(SYS.matrix.VAR_COUNT).val()
   }
 
   /**
@@ -58,7 +67,7 @@ $(document).ready(() => {
    * @param {string} content The output to be displayed in the log.
    */
   function updateLog(content) {
-    $(SYS.LOG).val(`${$(SYS.LOG).val()}${content}\n`)
+    $(SYS.main.LOG).val(`${$(SYS.main.LOG).val()}${content}\n`)
   }
 
   /**
@@ -67,7 +76,7 @@ $(document).ready(() => {
    * @param {string} element The id value of an HTML/CSS element.
    */
   function displayTextIn(element) {
-    $(SYS.TEXTSPACE).val($(element).val())
+    $(SYS.main.TEXTSPACE).val($(element).val())
   }
 
   /**
@@ -76,7 +85,7 @@ $(document).ready(() => {
    * @param {string} element The id value of an HTML/CSS element.
    */
   function storeTextIn(element) {
-    $(element).val($(SYS.TEXTSPACE).val())
+    $(element).val($(SYS.main.TEXTSPACE).val())
   }
 
   /**
@@ -122,7 +131,7 @@ $(document).ready(() => {
    * The selected file must be a *.lp or a *.txt file. For any other files,
    * the operation is cancelled.
    */
-  $(SYS.UPLOAD).click(() => {
+  $(SYS.main.UPLOAD).click(() => {
     var input = document.createElement('input');
     input.type = 'file';
     document.body.appendChild(input)
@@ -133,9 +142,9 @@ $(document).ready(() => {
       reader.readAsText(file, 'UTF-8')
       reader.onload = readerEvent => {
         var content = readerEvent.target.result
-        $(SYS.SOURCE).val(content)
-        if (state.current === SYS.SOURCE) {
-          $(SYS.TEXTSPACE).val(content)
+        $(SYS.main.SOURCE).val(content)
+        if (state.current === SYS.main.SOURCE) {
+          $(SYS.main.TEXTSPACE).val(content)
         }
         updateLog(`Content from ${filename} is placed into source text space.\n`)
         document.body.removeChild(input)
@@ -168,18 +177,18 @@ $(document).ready(() => {
   /**
    * Download the report of a lp_solve calculation as one file named report.txt.
    */
-  $(SYS.DOWNLOAD_REPORT).click(() => {
-    downloadForUser({ 'report.txt': valueOf(SYS.DOWNLOAD_REPORT) })
+  $(SYS.result.DOWNLOAD_REPORT).click(() => {
+    downloadForUser({ 'report.txt': valueOf(SYS.result.DOWNLOAD_REPORT) })
   })
 
   /**
    * Download the contents of the source text space as a file named lp_solve.txt
    */
-  $(SYS.DOWNLOAD).click(() => {
-    if (currentStateIs(SYS.SOURCE)) {
-      storeTextIn(SYS.SOURCE)
+  $(SYS.main.DOWNLOAD).click(() => {
+    if (currentStateIs(SYS.main.SOURCE)) {
+      storeTextIn(SYS.main.SOURCE)
     }
-    downloadForUser({ 'lp_solve.txt': valueOf(SYS.SOURCE) })
+    downloadForUser({ 'lp_solve.txt': valueOf(SYS.main.SOURCE) })
   })
 
   function buildConstraintRowHTML() {
@@ -199,7 +208,7 @@ $(document).ready(() => {
     const value = $(this).val()
     const id = $(this)[0].id
 
-    var lowLimit = `#${id}` === SYS.CONSTRAINT_COUNT ? 0 : 1
+    var lowLimit = `#${id}` === SYS.matrix.CONSTRAINT_COUNT ? 0 : 1
     console.log(lowLimit)
     if (value < lowLimit) { return }
 
@@ -208,7 +217,7 @@ $(document).ready(() => {
 
     operation = {
       'incr-variable-count': () => {
-        children = $(SYS.MATRIX_BODY)[0].children
+        children = $(SYS.matrix.MATRIX_BODY)[0].children
         for (var child of children) {
           const node = document.createElement('td')
           node.innerHTML = '<input type="number" />'
@@ -216,7 +225,7 @@ $(document).ready(() => {
         }
       },
       'decr-variable-count': () => {
-        children = $(SYS.MATRIX_BODY)[0].children
+        children = $(SYS.matrix.MATRIX_BODY)[0].children
         for (var child of children) {
           const firstVarChild = $(child)[0].childNodes[1]
           $(child)[0].removeChild(firstVarChild)
@@ -224,11 +233,11 @@ $(document).ready(() => {
       },
       'incr-constraint-count': () => {
         const row = buildConstraintRowHTML()
-        $(SYS.MATRIX_BODY)[0].appendChild(row)
+        $(SYS.matrix.MATRIX_BODY)[0].appendChild(row)
       },
       'decr-constraint-count': () => {
-        const lastChild = $(SYS.MATRIX_BODY)[0].lastChild
-        $(SYS.MATRIX_BODY)[0].removeChild(lastChild)
+        const lastChild = $(SYS.matrix.MATRIX_BODY)[0].lastChild
+        $(SYS.matrix.MATRIX_BODY)[0].removeChild(lastChild)
       }
     }
     performOperation = diff > 0 ? operation[`incr-${id}`] : operation[`decr-${id}`]
@@ -240,13 +249,18 @@ $(document).ready(() => {
     $(SYS.class.MATRIX_INPUT).val('')
   })
 
-  $(SYS.OPTIMAL_GOAL).change(() => {
-    if ($(SYS.OPTIMAL_GOAL).val() === 'toValue') {
-      $(SYS.TARGET_GOAL_VALUE).show()
+  $(SYS.matrix.OPTIMAL_GOAL).change(() => {
+    if ($(SYS.matrix.OPTIMAL_GOAL).val() === 'toValue') {
+      $(SYS.matrix.TARGET_GOAL_VALUE).show()
     } else {
-      $(SYS.TARGET_GOAL_VALUE).hide()
+      $(SYS.matrix.TARGET_GOAL_VALUE).hide()
     }
 
+  })
+
+  $(SYS.matrix.PARSE_MATRIX).click(function () {
+    console.log(SYS.matrix.VARIABLE_NAMES)
+    console.log(SYS.matrix.OBJECTIVE_FUNCTION)
   })
 
   /**
@@ -268,13 +282,13 @@ $(document).ready(() => {
    * }}
    * 
    */
-  $(SYS.RUN).click(() => {
+  $(SYS.main.RUN).click(() => {
     // If currently on source, first save all current progress.
-    if (currentStateIs(SYS.SOURCE)) {
-      storeTextIn(SYS.SOURCE)
+    if (currentStateIs(SYS.main.SOURCE)) {
+      storeTextIn(SYS.main.SOURCE)
     }
 
-    var request_data = { content: valueOf(SYS.SOURCE) }
+    var request_data = { content: valueOf(SYS.main.SOURCE) }
 
     updateLog('Now Running...')
 
@@ -294,8 +308,8 @@ $(document).ready(() => {
     }).then(res => {
       const SOLUTION = res.result.solution
       updateLog('Running Complete.\n')
-      $(SYS.DOWNLOAD_REPORT).val(res.result.solution)
-      $(SYS.OBJECTIVE).val(SOLUTION)
+      $(SYS.result.DOWNLOAD_REPORT).val(res.result.solution)
+      $(SYS.result.OBJECTIVE).val(SOLUTION)
       displayTextIn(state.current)
       console.log(res)
       // if (res.error === '') {
@@ -323,8 +337,8 @@ $(document).ready(() => {
   })
 
   function setMatrixState(status) {
-    var _ = status ? $(SYS.MATRIX_CONFIG).show() : $(SYS.MATRIX_CONFIG).hide()
-    var _ = status ? $(SYS.TEXTSPACE).hide() : $(SYS.TEXTSPACE).show()
+    var _ = status ? $(SYS.matrix.MATRIX_CONFIG).show() : $(SYS.matrix.MATRIX_CONFIG).hide()
+    var _ = status ? $(SYS.main.TEXTSPACE).hide() : $(SYS.main.TEXTSPACE).show()
   }
 
   /**
@@ -335,15 +349,15 @@ $(document).ready(() => {
     storeTextIn(state.current)
 
     setNextStateAs(pressedButtonID(e))
-    if (currentStateIs(SYS.RESULT)) {
-      $(SYS.RESULT_DASH).show()
-      setNextStateAs(SYS.OBJECTIVE)
+    if (currentStateIs(SYS.main.RESULT)) {
+      $(SYS.result.RESULT_DASH).show()
+      setNextStateAs(SYS.result.OBJECTIVE)
     } else {
-      $(SYS.RESULT_DASH).hide()
+      $(SYS.result.RESULT_DASH).hide()
     }
 
 
-    if (currentStateIs(SYS.MATRIX)) {
+    if (currentStateIs(SYS.main.MATRIX)) {
       setMatrixState(true)
       return
     } else {
@@ -351,8 +365,8 @@ $(document).ready(() => {
     }
     displayTextIn(state.current)
 
-    $(SYS.TEXTSPACE).attr('readonly', !currentStateIs(SYS.SOURCE))
-    console.log('Assertion', !currentStateIs(SYS.RESULT))
+    $(SYS.main.TEXTSPACE).attr('readonly', !currentStateIs(SYS.main.SOURCE))
+    console.log('Assertion', !currentStateIs(SYS.main.RESULT))
   })
 
   /**
