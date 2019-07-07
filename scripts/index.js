@@ -33,6 +33,7 @@ $(document).ready(() => {
       RESULT_TABS: '.result-tab',
       TAB_BUTTONS: '.tab-button',
       CONSTRAINT_EQ: '.constraint-equations',
+      COUNTER_MOD: '.counter-mod'
     }
   }
   const EQUALITY_OPTIONS = '<td><select><option> ≤ </option><option> ≥ </option><option> = </option><option> > </option><option> < </option></select></td><td><input type="number"/></td>'
@@ -188,41 +189,48 @@ $(document).ready(() => {
     return row
   }
 
-  /**
-   * Precondition: The count of variables is always at least 1.
-   */
-  $(SYS.VAR_COUNT).change(function () {
 
-    const newNode = '<td><input type="number"></td>'
+  $(SYS.class.COUNTER_MOD).change(function (e) {
+    console.log($(e.target).val())
 
-    console.log($(this).val())
-    const children = $(SYS.MATRIX_BODY)[0].children
-    for (var child of children) {
-      console.log($(child))
-    }
-  })
-
-  $(SYS.CONSTRAINT_COUNT).change(function () {
     const value = $(this).val()
-    if (value < 0) { return }
-
     const id = $(this)[0].id
+
+    var lowLimit = `#${id}` === SYS.CONSTRAINT_COUNT ? 0 : 1
+    console.log(lowLimit)
+    if (value < lowLimit) { return }
+
     const diff = value - state[id]
     state[id] = value
 
     operation = {
-      incr: () => {
+      'incr-variable-count': () => {
+        children = $(SYS.MATRIX_BODY)[0].children
+        for (var child of children) {
+          const node = document.createElement('td')
+          node.innerHTML = '<input type="number" />'
+          $(child)[0].insertBefore(node, $(child)[0].childNodes[1])
+        }
+      },
+      'decr-variable-count': () => {
+        children = $(SYS.MATRIX_BODY)[0].children
+        for (var child of children) {
+          const firstVarChild = $(child)[0].childNodes[1]
+          $(child)[0].removeChild(firstVarChild)
+        }
+      },
+      'incr-constraint-count': () => {
         const row = buildConstraintRowHTML()
         $(SYS.MATRIX_BODY)[0].appendChild(row)
       },
-      decr: () => {
+      'decr-constraint-count': () => {
         const lastChild = $(SYS.MATRIX_BODY)[0].lastChild
         $(SYS.MATRIX_BODY)[0].removeChild(lastChild)
       }
     }
-    var performedOperation = diff > 0 ? operation.incr : operation.decr
+    performOperation = diff > 0 ? operation[`incr-${id}`] : operation[`decr-${id}`]
     for (var i = 0; i < Math.abs(diff); i++)
-      performedOperation()
+      performOperation()
   })
 
   /**

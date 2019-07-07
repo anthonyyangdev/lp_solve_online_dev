@@ -46,8 +46,10 @@
       <?php 
         $VAR = 1;
         $RESTRICT = 2;
-        echo "<span>Variables</span><input type='number' min=1 value=$VAR id='variable-count'> ";
-        echo "<span>Constraints</span><input type='number' min=0 value=$RESTRICT id='constraint-count'>";
+        echo "<span>Variables</span><input type='number' min=1 
+        value=$VAR id='variable-count' class='counter-mod'>";
+        echo "<span>Constraints</span><input type='number' min=0 
+        value=$RESTRICT id='constraint-count' class='counter-mod'>";
         echo "<button id='reset-button'>Reset</button>";
       ?>
     </div>
