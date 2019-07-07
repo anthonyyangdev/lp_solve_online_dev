@@ -13,6 +13,8 @@ $(document).ready(() => {
     TEXTSPACE: '#textspace',
     SOURCE: '#source',
     MATRIX: '#matrix',
+    MATRIX_INPUT: '#matrix-input',
+    LP_MATRIX: '#lp-matrix',
     OPTIONS: '#options',
     RESULT: '#result',
     RESULT_DASH: '#result-dash',
@@ -24,18 +26,27 @@ $(document).ready(() => {
     LOG: '#log',
     UPLOAD: '#upload',
     RUN: '#run',
+    VAR_COUNT: '#variable-count',
+    CONSTRAINT_COUNT: '#constraint-count',
+    MATRIX_BODY: '#matrix-body',
     class: {
       RESULT_TABS: '.result-tab',
-      TAB_BUTTONS: '.tab-button'
+      TAB_BUTTONS: '.tab-button',
+      CONSTRAINT_EQ: '.constraint-equations',
     }
   }
+  const EQUALITY_OPTIONS = '<td><select><option> ≤ </option><option> ≥ </option><option> = </option><option> > </option><option> < </option></select></td><td><input type="number"/></td>'
+
 
   /**
    * Records the current state of the website
    */
   let state = {
-    current: SYS.SOURCE
+    current: SYS.SOURCE,
+    'constraint-count': $(SYS.CONSTRAINT_COUNT).val(),
+    'variable-count': $(SYS.VAR_COUNT).val()
   }
+  $(SYS.MATRIX_INPUT).hide()
 
   /**
    * Updates the log with a new message. This message is to displayed following
@@ -167,6 +178,53 @@ $(document).ready(() => {
     downloadForUser({ 'lp_solve.txt': valueOf(SYS.SOURCE) })
   })
 
+  function buildConstraintRowHTML() {
+    let row = document.createElement('tr')
+    let html = '<td>Constraint</td>'
+    for (var i = 0; i < state['variable-count']; i++) {
+      html += '<td><input type="number"></td>'
+    }
+    row.innerHTML = html + EQUALITY_OPTIONS
+    return row
+  }
+
+  /**
+   * Precondition: The count of variables is always at least 1.
+   */
+  $(SYS.VAR_COUNT).change(function () {
+
+    const newNode = '<td><input type="number"></td>'
+
+    console.log($(this).val())
+    const children = $(SYS.MATRIX_BODY)[0].children
+    for (var child of children) {
+      console.log($(child))
+    }
+  })
+
+  $(SYS.CONSTRAINT_COUNT).change(function () {
+    const value = $(this).val()
+    if (value < 0) { return }
+
+    const id = $(this)[0].id
+    const diff = value - state[id]
+    state[id] = value
+
+    operation = {
+      incr: () => {
+        const row = buildConstraintRowHTML()
+        $(SYS.MATRIX_BODY)[0].appendChild(row)
+      },
+      decr: () => {
+        const lastChild = $(SYS.MATRIX_BODY)[0].lastChild
+        $(SYS.MATRIX_BODY)[0].removeChild(lastChild)
+      }
+    }
+    var performedOperation = diff > 0 ? operation.incr : operation.decr
+    for (var i = 0; i < Math.abs(diff); i++)
+      performedOperation()
+  })
+
   /**
    * Connects to the lp_solve_server, which performs the linear programming
    * calculations, and receives the results from those calculations.
@@ -240,6 +298,11 @@ $(document).ready(() => {
     })
   })
 
+  function setMatrixState(status) {
+    var _ = status ? $(SYS.MATRIX_INPUT).show() : $(SYS.MATRIX_INPUT).hide()
+    var _ = status ? $(SYS.TEXTSPACE).hide() : $(SYS.TEXTSPACE).show()
+  }
+
   /**
    * Changes the content of the text area into the values associated to the 
    * button clicked.
@@ -255,6 +318,13 @@ $(document).ready(() => {
       $(SYS.RESULT_DASH).hide()
     }
 
+
+    if (currentStateIs(SYS.MATRIX)) {
+      setMatrixState(true)
+      return
+    } else {
+      setMatrixState(false)
+    }
     displayTextIn(state.current)
 
     $(SYS.TEXTSPACE).attr('readonly', !currentStateIs(SYS.SOURCE))

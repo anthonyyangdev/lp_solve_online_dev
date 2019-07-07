@@ -11,7 +11,8 @@
 </head>
 
 <body>
-  <h1>lp_solve 5.5.2.5 Online</h1>
+  <h1>lp_solve_online v0.3</h1>
+  <p>This web app is inspired by the lp_solve5.5.2.5 IDE.</p>
   <?php 
       $arr = ['run' => 'Run', 'download' => 'Download', 'upload' => 'Upload', 'help' => 'Help'];
       foreach ($arr as $id => $display) {
@@ -40,38 +41,36 @@
       echo "<button id='download-report' class='display-button'>Download Report</button>"
     ?>
   </div>
-  <div>
+  <div id='matrix-input'>
     <div>
       <?php 
-        $VAR = 10;
-        $RESTRICT = 0;
-        echo "<span>Variables</span><input type='number' min=1 value=$VAR> ";
-        echo "<span>Constraints</span><input type='number' min=0 value=$RESTRICT>";
-        echo "<button>Reset</button>";
+        $VAR = 1;
+        $RESTRICT = 2;
+        echo "<span>Variables</span><input type='number' min=1 value=$VAR id='variable-count'> ";
+        echo "<span>Constraints</span><input type='number' min=0 value=$RESTRICT id='constraint-count'>";
+        echo "<button id='reset-button'>Reset</button>";
       ?>
     </div>
     <?php 
-      echo '<table id="lp-matrix" border="1"><tbody>';
+      echo '<table id="lp-matrix" border="1">
+      <tbody id="matrix-body">';
       echo '<tr><td>Variable Name(s)</td>';
       for ($i = 0; $i < $VAR; $i++) {
         echo '<td><input type="text"/></td>';
       }  
       echo '</tr>';
-      for ($i = 0; $i < $RESTRICT + 1; $i++) {
-        echo '<tr>';
-        for ($j = 0; $j < $VAR + 1; $j++) {
-          if ($j === 0 && $i === 0) {
-            echo '<td>Optimize</td>';
-          } else if ($j === 0) {
-            echo '<td>Constraint</td>';      
-          } else {
-            echo '<td><input type="number"/></td>';
-          }
-        }
-        
-        if ($i === 0 && $j > $VAR - 2) {
-          continue;
-        }
+      echo '<tr><td>Optimize</td>';
+      for ($i = 0; $i < $VAR; $i++) {
+        echo '<td><input type="text"/></td>';
+      }
+      echo '</tr>';
+      
+      for ($i = 0; $i < $RESTRICT; $i++) {
+        echo '<tr class="constraint-equations">';
+        echo '<td>Constraint</td>';
+        for ($j = 0; $j < $VAR; $j++) {
+          echo '<td><input type="number"/></td>';
+        }        
         echo '<td><select>
           <option> ≤ </option>
           <option> ≥ </option>
@@ -82,7 +81,8 @@
         echo '<td><input type="number"/></td>';
         echo '</tr>';
       }
-      echo '</tbody></table>'
+      echo '</tbody>
+      </table>'
       ?>
     </table>
   </div>
