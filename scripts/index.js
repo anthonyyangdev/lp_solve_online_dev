@@ -57,8 +57,8 @@ $(document).ready(() => {
    */
   let state = {
     current: SYS.main.SOURCE,
-    'constraint-count': $(SYS.matrix.CONSTRAINT_COUNT).val(),
-    'variable-count': $(SYS.matrix.VAR_COUNT).val()
+    'constraint-count': parseInt($(SYS.matrix.CONSTRAINT_COUNT).val()),
+    'variable-count': parseInt($(SYS.matrix.VAR_COUNT).val())
   }
 
   /**
@@ -195,7 +195,7 @@ $(document).ready(() => {
     let row = document.createElement('tr')
     let html = '<td>Constraint</td>'
     for (var i = 0; i < state['variable-count']; i++) {
-      html += '<td><input type="number"></td>'
+      html += '<td><input type="number" class="matrix-input"></td>'
     }
     row.innerHTML = html + EQUALITY_OPTIONS
     return row
@@ -213,14 +213,14 @@ $(document).ready(() => {
     if (value < lowLimit) { return }
 
     const diff = value - state[id]
-    state[id] = value
+    state[id] = parseInt(value)
 
     operation = {
       'incr-variable-count': () => {
         children = $(SYS.matrix.MATRIX_BODY)[0].children
         for (var child of children) {
           const node = document.createElement('td')
-          node.innerHTML = '<input type="number" />'
+          node.innerHTML = '<input type="text" class="matrix-input"/>'
           $(child)[0].insertBefore(node, $(child)[0].childNodes[1])
         }
       },
@@ -245,7 +245,7 @@ $(document).ready(() => {
       performOperation()
   })
 
-  $(SYS.RESET).click(function () {
+  $(SYS.matrix.RESET).click(function () {
     $(SYS.class.MATRIX_INPUT).val('')
   })
 
@@ -259,8 +259,44 @@ $(document).ready(() => {
   })
 
   $(SYS.matrix.PARSE_MATRIX).click(function () {
-    console.log(SYS.matrix.VARIABLE_NAMES)
-    console.log(SYS.matrix.OBJECTIVE_FUNCTION)
+    var variables = $(SYS.matrix.VARIABLE_NAMES)[0].children
+    var objective = $(SYS.matrix.OBJECTIVE_FUNCTION)[0].children
+    var constraints = $(SYS.matrix.MATRIX_BODY)[0].children
+
+    var program = { objective: '', constraints: [] }
+
+    for (var i = 1; i < variables.length; i++) {
+      var coefficient = $(objective[i]).children().first().val()
+      var name = $(variables[i]).children().first().val()
+      console.log(i, coefficient, name)
+
+      if (name == '') {
+        alert(`A name is not given for variable ${i}`)
+        return
+      }
+      if (coefficient == '') {
+        coefficient = '0';
+      }
+
+      program.objective += `${coefficient}${name}`
+      program.objective += (i === variables.length - 1) ? ';' : '+'
+
+      for (var j = 2; j < state['constraint-count'] + 2; j++) {
+        let R = $($(constraints[j]).children()[i]).children().first().val()
+        if (R == '') {
+          R = 0
+        }
+        program.constraints[j - 2] = i === 1 ? '' : program.constraints[j - 2]
+        program.constraints[j - 2] += `${R}${name}`
+        program.constraints[j - 2] += (i === variables.length - 1) ? ';' : '+'
+      }
+    }
+
+
+    program.objective = `${$(SYS.matrix.OPTIMAL_GOAL).val()}: ${program.objective}`
+    $(SYS.main.SOURCE).val(program.objective)
+    console.table(program.constraints)
+    alert('Your matrix has been parsed into algebraic statements in `SOURCE`')
   })
 
   /**

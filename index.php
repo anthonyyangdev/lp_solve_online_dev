@@ -64,7 +64,7 @@
       echo '</tr>';
       echo '<tr id="objective-function"><td>Optimize</td>';
       for ($i = 0; $i < $VAR; $i++) {
-        echo '<td><input type="text" class="matrix-input"/></td>';
+        echo '<td><input type="number" class="matrix-input"/></td>';
       }
       echo '<td><select id="optimal-goal">
       <option> max </option>
