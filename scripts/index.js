@@ -258,6 +258,8 @@ $(document).ready(() => {
 
   })
 
+
+
   $(SYS.matrix.PARSE_MATRIX).click(function () {
     var variables = $(SYS.matrix.VARIABLE_NAMES)[0].children
     var objective = $(SYS.matrix.OBJECTIVE_FUNCTION)[0].children
@@ -265,37 +267,38 @@ $(document).ready(() => {
 
     var program = { objective: '', constraints: [] }
 
+    // Plus 2 to obtain inequalities/equalities for constraints.
     for (var i = 1; i < variables.length; i++) {
       var coefficient = $(objective[i]).children().first().val()
       var name = $(variables[i]).children().first().val()
-      console.log(i, coefficient, name)
 
       if (name == '') {
         alert(`A name is not given for variable ${i}`)
         return
       }
-      if (coefficient == '') {
-        coefficient = '0';
-      }
+      if (coefficient == '') { coefficient = 0; }
 
       program.objective += `${coefficient}${name}`
       program.objective += (i === variables.length - 1) ? ';' : '+'
+    }
+
+    for (var i = 1; i < variables.length + 2; i++) {
+      var name = i < variables.length ? $(variables[i]).children().first().val() : ''
 
       for (var j = 2; j < state['constraint-count'] + 2; j++) {
         let R = $($(constraints[j]).children()[i]).children().first().val()
-        if (R == '') {
-          R = 0
-        }
+        if (R == '') { R = 0 }
         program.constraints[j - 2] = i === 1 ? '' : program.constraints[j - 2]
         program.constraints[j - 2] += `${R}${name}`
-        program.constraints[j - 2] += (i === variables.length - 1) ? ';' : '+'
+        program.constraints[j - 2] += i < variables.length - 1 ? '+' : (i < variables.length + 1 ? '' : ';')
       }
     }
-
-
     program.objective = `${$(SYS.matrix.OPTIMAL_GOAL).val()}: ${program.objective}`
     $(SYS.main.SOURCE).val(program.objective)
-    console.table(program.constraints)
+    for (var constraint of program.constraints) {
+      const prev = $(SYS.main.SOURCE).val()
+      $(SYS.main.SOURCE).val(`${prev}\n${constraint}`)
+    }
     alert('Your matrix has been parsed into algebraic statements in `SOURCE`')
   })
 
