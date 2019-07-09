@@ -2,9 +2,7 @@
 const dev = false
 const LP_SOLVE_API = dev ? "http://localhost:5000/" : "https://peaceful-zion-91234.herokuapp.com/"
 
-
 $(document).ready(() => {
-
   /**
    * Constants in the website. HTML/CSS ids are stored as key => value mappings.
    * HTML/CSS class names are stored in the {@var SYS.class} property.
@@ -20,6 +18,7 @@ $(document).ready(() => {
       RUN: '#run',
       TEXTSPACE: '#textspace',
       LOG: '#log',
+      HELP: '#help'
     },
     matrix: {
       MATRIX_CONFIG: '#matrix-config',
@@ -189,6 +188,11 @@ $(document).ready(() => {
       storeTextIn(SYS.main.SOURCE)
     }
     downloadForUser({ 'lp_solve.txt': valueOf(SYS.main.SOURCE) })
+  })
+
+
+  $(SYS.main.HELP).click(() => {
+    alert('This web app is still in its TESTING stages and currently only receiving MINIMAL amounts of support.\nHowever, MOST LP problems can be solved, where the results/answers are displayed in the [Results] section (Press the [Result] button to see.)\nIt is though HIGHLY recommended that you check with the actual lp_solve program or a spreadsheet model.')
   })
 
   function buildConstraintRowHTML() {
