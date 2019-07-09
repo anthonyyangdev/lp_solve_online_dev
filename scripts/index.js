@@ -147,8 +147,8 @@ $(document).ready(() => {
           $(SYS.main.TEXTSPACE).val(content)
         }
         updateLog(`Content from ${filename} is placed into source text space.\n`)
-        document.body.removeChild(input)
       }
+      document.body.removeChild(input)
     }
     input.click();
   })
