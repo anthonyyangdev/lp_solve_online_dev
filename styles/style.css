@@ -2,10 +2,6 @@ button {
   border-radius: 0;
 }
 
-textarea {
-  border: 0.25vw black solid;
-} */
-
 .text-display {
   width: 100vw;
   min-height: 50vh;
