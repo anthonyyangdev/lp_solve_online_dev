@@ -109,8 +109,12 @@
   <h2>Future Features: </h2>
   <ul>
     <li>Constraints and Limit Analysis</li>
+    <li>Use an alternative lp_solve library or compile the lp_solve binary in the server</li>
     <li>Interactive Builder for Transportation, Minimum Cost, Maximum Flow, and Shortest Path Problems</li>
   </ul>
+  <h2>Dependencies:</h2>
+  <p>The web app currently uses the javascript-lp-solve</p>
+  <p>Github link: <a href='https://github.com/JWally/jsLPSolver'>https://github.com/JWally/jsLPSolver<a></p>
 </body>
 
 </html>
