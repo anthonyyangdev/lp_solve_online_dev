@@ -1,3 +1,4 @@
+
 // Sets whether the project is in development or in production
 const dev = false
 const LP_SOLVE_API = dev ? "http://localhost:5000/" : "https://peaceful-zion-91234.herokuapp.com/"
@@ -48,7 +49,7 @@ $(document).ready(() => {
       MATRIX_INPUT: '.matrix-input'
     }
   }
-  const EQUALITY_OPTIONS = '<td><select><option> ≤ </option><option> ≥ </option><option> = </option><option> > </option><option> < </option></select></td><td><input type="number"/></td>'
+  const EQUALITY_OPTIONS = '<td><select><option> <= </option><option> >= </option><option> = </option><option> > </option><option> < </option></select></td><td><input type="number"/></td>'
 
 
   /**
@@ -209,13 +210,10 @@ $(document).ready(() => {
 
 
   $(SYS.class.COUNTER_MOD).change(function (e) {
-    console.log($(e.target).val())
-
     const value = $(this).val()
     const id = $(this)[0].id
 
     var lowLimit = `#${id}` === SYS.matrix.CONSTRAINT_COUNT ? 0 : 1
-    console.log(lowLimit)
     if (value < lowLimit) { return }
 
     const diff = value - state[id]
@@ -261,9 +259,7 @@ $(document).ready(() => {
     } else {
       $(SYS.matrix.TARGET_GOAL_VALUE).hide()
     }
-
   })
-
 
 
   $(SYS.matrix.PARSE_MATRIX).click(function () {
@@ -273,7 +269,6 @@ $(document).ready(() => {
 
     var program = { objective: '', constraints: [] }
 
-    // Plus 2 to obtain inequalities/equalities for constraints.
     for (var i = 1; i < variables.length; i++) {
       var coefficient = $(objective[i]).children().first().val()
       var name = $(variables[i]).children().first().val()
@@ -351,12 +346,12 @@ $(document).ready(() => {
     }).then(response => {
       return response.json()
     }).then(res => {
+      console.log(res)
       const SOLUTION = res.result.solution
       updateLog('Running Complete.\n')
       $(SYS.result.DOWNLOAD_REPORT).val(res.result.solution)
       $(SYS.result.OBJECTIVE).val(SOLUTION)
       displayTextIn(state.current)
-      console.log(res)
       // if (res.error === '') {
       //   updateLog('Running Complete.\n')
       // } else {

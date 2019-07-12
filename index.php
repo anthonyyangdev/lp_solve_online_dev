@@ -88,8 +88,8 @@
           echo '<td><input type="number" class="matrix-input"/></td>';
         }        
         echo '<td><select>
-          <option> ≤ </option>
-          <option> ≥ </option>
+          <option> <= </option>
+          <option> >= </option>
           <option> = </option>
           <option> > </option>
           <option> < </option>
