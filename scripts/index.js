@@ -192,7 +192,9 @@ $(document).ready(() => {
 
 
   $(SYS.main.HELP).click(() => {
-    alert('This web app is still in its TESTING stages and currently only receiving MINIMAL amounts of support.\nHowever, MOST LP problems can be solved, where the results/answers are displayed in the [Results] section (Press the [Result] button to see.)\nIt is though HIGHLY recommended that you check with the actual lp_solve program or a spreadsheet model.')
+    //    const msg = 'This web app is still in its TESTING stages and currently only receiving MINIMAL amounts of support.\nHowever, MOST LP problems can be solved, where the results/answers are displayed in the [Results] section (Press the [Result] button to see.)\nIt is though HIGHLY recommended that you check with the actual lp_solve program or a spreadsheet model.'
+    const msg = 'Help:\n\nClick on the [Source] button and write your algebraic model in the text space below.\nThe syntax follows the same convention as that for the original lp_solve program.\n\nWhen done, press the [Run] button for the model to be solved. The bottom of the screen will display [Running Complete.] if successful.\n\nThe results/answers are displayed in the [Results] section (Press the [Result] button to see.)\n\nSince this is currently being built and tested, it is recommended that you check with the actual lp_solve program or a spreadsheet model to decide on the optimal solution.'
+    alert(msg)
   })
 
   function buildConstraintRowHTML() {

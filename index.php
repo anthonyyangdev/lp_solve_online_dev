@@ -15,10 +15,9 @@
   <p>This web app is inspired by the lp_solve5.5.2.5 IDE.</p>
   <h3>NOTICE AND WARNING: </h3>
   <p> This web app is still in its TESTING stages and currently only receiving MINIMAL amounts of
-    support. However, MOST LP problems can be solved, where the results/answers are displayed in the [Results] section
-    (Press the [Result] button to see.). It is though HIGHLY recommended that you check with the actual lp_solve program
-    or a
-    spreadsheet model.
+    support. However, LP problems can be solved, where the results/answers are displayed in the [Results] section
+    (Press the [Result] button to see.). It is recommended that you check with the actual lp_solve program
+    or a spreadsheet model.
   </p>
   <?php 
       $arr = ['run' => 'Run', 'download' => 'Download', 'upload' => 'Upload', 'help' => 'Help'];
@@ -107,6 +106,11 @@
   <!-- Matrix Input -->
   <b>Log</b>
   <textarea id='log' class='text-display' readonly></textarea>
+  <h2>Future Features: </h2>
+  <ul>
+    <li>Constraints and Limit Analysis</li>
+    <li>Interactive Builder for Transportation, Minimum Cost, Maximum Flow, and Shortest Path Problems</li>
+  </ul>
 </body>
 
 </html>
