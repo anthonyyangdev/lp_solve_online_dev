@@ -1,6 +1,6 @@
 
 // Sets whether the project is in development or in production
-const dev = false
+const dev = true
 const LP_SOLVE_API = dev ? "http://localhost:5000/" : "https://peaceful-zion-91234.herokuapp.com/"
 
 $(document).ready(() => {
@@ -346,9 +346,13 @@ $(document).ready(() => {
     }).then(response => {
       return response.json()
     }).then(res => {
-      console.log(res)
+      if (res.error) {
+        console.log(res.error)
+        alert(res.error.msg)
+      }
       const SOLUTION = res.result.solution
       updateLog('Running Complete.\n')
+      alert('Running Complete. Click [Result] for answers')
       $(SYS.result.DOWNLOAD_REPORT).val(res.result.solution)
       $(SYS.result.OBJECTIVE).val(SOLUTION)
       displayTextIn(state.current)
