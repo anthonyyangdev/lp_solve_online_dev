@@ -5,27 +5,27 @@
   <link rel="stylesheet" href='./styles/style.css'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src='./scripts/index.js'></script>
+  <!-- <script src="lib/codemirror.js"></script> -->
+  <script src="mode/javascript/javascript.js"></script>
 </head>
 
 <body>
-  <h1>lp_solve_online v0.3</h1>
-  <p>This web app is inspired by the lp_solve5.5.2.5 IDE.</p>
-  <h3>NOTICE AND WARNING: </h3>
-  <p> This web app is still in its TESTING stages and currently only receiving MINIMAL amounts of
-    support. However, LP problems can be solved, where the results/answers are displayed in the [Results] section
-    (Press the [Result] button to see.). It is recommended that you check with the actual lp_solve program
-    or a spreadsheet model.
-  </p>
+  <h1>lp_solve_online v0.6</h1>
+  <!-- <h3>NOTICE AND WARNING: </h3>
+  <p> This web app is still in its TESTING stages and currently receiving only SMALL amounts of support. However, LP
+    problems can be solved, where the results/answers are displayed in the [Results] section
+    (Press the [Result] button to see.). It is recommended that you check with the actual lp_solve program or a
+    spreadsheet model.
+  </p> -->
   <?php 
       $arr = ['run' => 'Run', 'download' => 'Download', 'upload' => 'Upload', 'help' => 'Help'];
       foreach ($arr as $id => $display) {
         echo "<button id=$id class='display-button'>$display</button>"; 
-      };
+      }
     ?>
   <br />
   <div>
     <?php 
-      // 'matrix' => 'Matrix', 'options' => 'Options', 
       $arr = ['source' => 'Source', 'matrix' => 'Matrix', 'result' => 'Result'];
       foreach ($arr as $id => $display) {
         echo "<button id=$id class='tab-button display-button'>$display</button>"; 
@@ -109,6 +109,7 @@
     <li>Use an alternative lp_solve library or compile the lp_solve binary in the server</li>
     <li>Interactive Builder for Transportation, Minimum Cost, Maximum Flow, and Shortest Path Problems</li>
   </ul>
+  <p>This web app is inspired by the lp_solve5.5.2.5 IDE.</p>
   <h2>Dependencies:</h2>
   <p>The web app currently uses the javascript-lp-solve</p>
   <p>Github link: <a href='https://github.com/JWally/jsLPSolver'>https://github.com/JWally/jsLPSolver<a></p>
