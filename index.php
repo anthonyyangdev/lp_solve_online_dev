@@ -111,8 +111,11 @@
   </ul>
   <p>This web app is inspired by the lp_solve5.5.2.5 IDE.</p>
   <h2>Dependencies:</h2>
-  <p>The web app currently uses the javascript-lp-solve</p>
-  <p>Github link: <a href='https://github.com/JWally/jsLPSolver'>https://github.com/JWally/jsLPSolver<a></p>
+  <p>The web app connects to a backend server that uses the javascript-lp-solve/jsLPSolver dependency</p>
+  <p>javascript-lp-solve/jsLPSolver: <a
+      href='https://github.com/JWally/jsLPSolver'>https://github.com/JWally/jsLPSolver<a></p>
+  <p>Github repository of this app: <a
+      href='https://github.com/ayang4114/lp_solve_online_dev'>https://github.com/ayang4114/lp_solve_online_dev</a></p>
 </body>
 
 </html>
