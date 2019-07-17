@@ -12,12 +12,12 @@
 
 <body>
   <h1>lp_solve_online v0.6</h1>
-  <h3>NOTICE AND WARNING: </h3>
+  <!-- <h3>NOTICE AND WARNING: </h3>
   <p> This web app is still in its TESTING stages and currently receiving only SMALL amounts of support. However, LP
     problems can be solved, where the results/answers are displayed in the [Results] section
     (Press the [Result] button to see.). It is recommended that you check with the actual lp_solve program or a
     spreadsheet model.
-  </p>
+  </p> -->
   <?php 
       $arr = ['run' => 'Run', 'download' => 'Download', 'upload' => 'Upload', 'help' => 'Help'];
       foreach ($arr as $id => $display) {
