@@ -55,10 +55,17 @@ $(document).ready(() => {
   /**
    * Records the current state of the website
    */
-  let state = {
+  const state = {
     current: SYS.main.SOURCE,
     'constraint-count': parseInt($(SYS.matrix.CONSTRAINT_COUNT).val()),
     'variable-count': parseInt($(SYS.matrix.VAR_COUNT).val())
+  }
+
+
+  function scrollLogToBottom() {
+    const id = SYS.main.LOG.slice(1)
+    const element = document.getElementById(id)
+    element.scrollTop = element.scrollHeight
   }
 
   /**
@@ -68,6 +75,7 @@ $(document).ready(() => {
    */
   function updateLog(content) {
     $(SYS.main.LOG).val(`${$(SYS.main.LOG).val()}${content}\n`)
+    scrollLogToBottom()
   }
 
   /**

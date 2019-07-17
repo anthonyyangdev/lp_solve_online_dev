@@ -4,7 +4,7 @@ button {
 
 .text-display {
   width: 100vw;
-  min-height: 50vh;
+  min-height: 30vh;
   font-family: monospace;
   font-size: 120%;
 }
