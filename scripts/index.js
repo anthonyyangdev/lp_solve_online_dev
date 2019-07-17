@@ -1,6 +1,6 @@
 
 // Sets whether the project is in development or in production
-const dev = true
+const dev = false
 const LP_SOLVE_API = dev ? "http://localhost:5000/" : "https://peaceful-zion-91234.herokuapp.com/"
 
 $(document).ready(() => {
