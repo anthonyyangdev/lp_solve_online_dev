@@ -5,12 +5,10 @@
   <link rel="stylesheet" href='./styles/style.css'>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src='./scripts/index.js'></script>
-  <!-- <script src="lib/codemirror.js"></script> -->
-  <script src="mode/javascript/javascript.js"></script>
 </head>
 
 <body>
-  <h1>lp_solve_online v0.6</h1>
+  <h1>lp_solve_online v0.7</h1>
   <!-- <h3>NOTICE AND WARNING: </h3>
   <p> This web app is still in its TESTING stages and currently receiving only SMALL amounts of support. However, LP
     problems can be solved, where the results/answers are displayed in the [Results] section
@@ -103,6 +101,12 @@
   <!-- Matrix Input -->
   <b>Log</b>
   <textarea id='log' class='text-display' readonly></textarea>
+  <h2>Version 0.7.0 Changes</h2>
+  <ul>
+    <li>Declare for declarations by using `for variable = start_value to end_value: <i>expression</i>;`.</li>
+    <li>Declare variable names by using `set variable = value;`.</li>
+    <li>Declare summations by using `sum [variable = start_value to end_value] (expression);`.</li>
+  </ul>
   <h2>Future Features: </h2>
   <ul>
     <li>Constraints and Limit Analysis</li>
