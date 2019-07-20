@@ -3,11 +3,8 @@
 
 <head>
   <link rel="stylesheet" href='./styles/style.css'>
-  <link rel="stylesheet" href="lib/codemirror.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src='./scripts/index.js'></script>
-  <!-- <script src="lib/codemirror.js"></script> -->
-  <script src="mode/javascript/javascript.js"></script>
 </head>
 
 <body>

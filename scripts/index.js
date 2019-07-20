@@ -1,6 +1,6 @@
 
 // Sets whether the project is in development or in production
-const dev = false
+const dev = true
 const LP_SOLVE_API = dev ? "http://localhost:5000/" : "https://peaceful-zion-91234.herokuapp.com/"
 
 $(document).ready(() => {
@@ -196,7 +196,7 @@ $(document).ready(() => {
     if (currentStateIs(SYS.main.SOURCE)) {
       storeTextIn(SYS.main.SOURCE)
     }
-    downloadForUser({ 'lp_solve.txt': valueOf(SYS.main.SOURCE) })
+    downloadForUser({ 'lp_solve.lpx': valueOf(SYS.main.SOURCE) })
   })
 
 
@@ -339,6 +339,8 @@ $(document).ready(() => {
     var request_data = { content: valueOf(SYS.main.SOURCE) }
 
     updateLog('Now Running...')
+
+    console.log(JSON.stringify(request_data))
 
     fetch(LP_SOLVE_API, {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
