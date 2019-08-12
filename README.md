@@ -1,4 +1,4 @@
-# lpsolveweb
+# lp_solve_online_dev
 
 This project aims to build an accessible, online linear programming optimization interface.
 The web app works with a complementary backend server that processes algebraic optimization models and finds the optimal solution, if possible. The Github repository for the server can be found in [this GitHub repository](https://github.com/ayang4114/lp_solve_server_dev/tree/master).
