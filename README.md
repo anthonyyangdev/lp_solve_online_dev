@@ -20,7 +20,7 @@ The syntax is largely based on that used in lpsolve library and IDE, and it addi
   - minimize: 3x_1 + 2x_2 - 4x_3;
 
 ### Functional Constraints
-The server recognizes two types of constraints named **relation** constraints and **range** constraints. Only 1 of the 2 can be declared in the same statement.
+Constraints apply a restriction on variables based on expressions and values. The server recognizes two types of constraints named **relation** constraints and **range** constraints. Only 1 of the 2 can be declared in the same statement.
 - **Inequality** refers to less-than (<), less-than-or-equal (<=), greater-than (>), and greater-than-or-equal (>=).
 - **Equality** refers to equal (=).
 - Every constraint declaration must end with a semi-colon (**;**).
@@ -29,6 +29,7 @@ The server recognizes two types of constraints named **relation** constraints an
   - Examples:
     - 2x + 4y <= 17;
     - 3x_1 - 2x_2 + 3x_3 >= 10;
+    - 2x = 5y;
 - **Range Constraint**:
   - Defined to be a continuous inequality, i.e. __value 1__ [inequality] __expression__ [inequality] __value 2__
   - By **value**, __value 1__ and __value 2__ are expressions that must evaluate to some number.
@@ -44,7 +45,7 @@ The server recognizes two types of constraints named **relation** constraints an
   - Names cannot be one of the objective types, i.e. **max**, **min**, **maximize**, **minimize**.
 
 ### Type Declaration
-The server recognizes three types: **int**, **bin**, **free**.
+The server recognizes three unique types: **int**, **bin**, **free**.
 - The three types are used to constrain variables to be a certain type of value. Any variables declared in the objective statement and constraint statements are by default **free**. 
 - Type declarations are written in the following format:
   - [type]: [each variable separated by commas];
@@ -58,6 +59,34 @@ The server recognizes three types: **int**, **bin**, **free**.
   - int x, y, z;
   - bin x_1, x_2, x_3;
   - free z;
+  
+### For Statement
+For statements can be used to declare multiple constraints or type declarations in a single statement. The following format is used to write a for statement:
+- for [iterating variable] = [initial value] to [terminating value]: [constraint or type declaration];
+- For each iteration, the any instance of the iterating variable in the constraint or type declaration is substituted by the current value. 
+- The iterating variable increments by 1. 
+- The terminating value is required to be greater than or equal to the inital value.
+- Examples:
+  - for i = 1 to 3: 2x_i <= 15;
+    - This is equivalent to the following constraints:
+      - 2x_1 <= 15;
+      - 2x_2 <= 15;
+      - 2x_3 <= 15;
+  - for i = 1 to 3: int x_i;
+    - This is equivalent to the following type declarations:
+      - int x_1;
+      - int x_2;
+      - int x_3;
+
+### Summation Statement
+Summations can be used express a long expression succintly. Summations are considered expressions and can be written inside objective or constraint statements. They are written in the following form:
+- sum [[iterating variable] = [initial value] to [terminating value]] ([expression])
+- The iterating variable, initial value, and terminating value follow the same properties as those in **for** statements.
+- Examples: 
+  - max: sum [i = 1 to 4] (x_i);
+    - This is equivalent to max: x_1 + x_2 + x_3 + x_4; 
+  - C1: sum [i = 1 to 4] (2x_i - y_i) <= 23;
+    - This is equivalent to C1: 2x_1 - y_1 + 2x_2 - y_2 + 2x_3 - y_3 + 2x_4 - y_4 <= 23;  
 
 You can try out the web app deployed on Heroku here:
 - [https://lpsolveweb.herokuapp.com/](https://lpsolveweb.herokuapp.com/)
