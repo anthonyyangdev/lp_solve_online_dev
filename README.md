@@ -1,5 +1,8 @@
 # lp_solve_online_dev
 
+You can try out the web app deployed on Heroku here:
+- [https://lpsolveweb.herokuapp.com/](https://lpsolveweb.herokuapp.com/)
+
 This project aims to build an accessible, online linear programming optimization interface.
 The web app works with a complementary backend server that processes algebraic optimization models and finds the optimal solution, if possible. The Github repository for the server can be found in [this GitHub repository](https://github.com/ayang4114/lp_solve_server_dev/tree/master).
 
@@ -88,6 +91,4 @@ Summations can be used express a long expression succintly. Summations are consi
   - C1: sum [i = 1 to 4] (2x_i - y_i) <= 23;
     - This is equivalent to C1: 2x_1 - y_1 + 2x_2 - y_2 + 2x_3 - y_3 + 2x_4 - y_4 <= 23;  
 
-You can try out the web app deployed on Heroku here:
-- [https://lpsolveweb.herokuapp.com/](https://lpsolveweb.herokuapp.com/)
 
